@@ -25,26 +25,35 @@ class Span <  Formula
 
 	on_macos do
 		if Hardware::CPU.intel?
-			url "{{ with (index .Assets "span.amd64-macos.zip") }}{{ .URL }}{{ end }}"
-			sha256 "{{ with (index .Assets "span.amd64-macos.zip") }}{{ .SHA256 }}{{ end }}"
+		{{- with (index .Assets "span.amd64-macos.zip") }}
+			url "{{ .URL }}"
+			sha256 "{{ .SHA256 }}"
+		{{- end }}
 		end
 
 		if Hardware::CPU.arm?
-			url "{{ with (index .Assets "span.arm64-macos.zip") }}{{ .URL }}{{ end }}"			
-			sha256 "{{ with (index .Assets "span.arm64-macos.zip") }}{{ .SHA256 }}{{ end }}"
+		{{- with (index .Assets "span.arm64-macos.zip") }}
+			url "{{ .URL }}"
+			sha256 "{{ .SHA256 }}"
+		{{- end }}
 		end
 	end
 
 	on_linux do
 		if Hardware::CPU.intel?
-			url "{{ with (index .Assets "span.amd64-linux.zip") }}{{ .URL }}{{ end }}"
-			sha256 "{{ with (index .Assets "span.amd64-linux.zip") }}{{ .SHA256 }}{{ end }}"
+		{{- with (index .Assets "span.amd64-linux.zip") }}
+			url "{{ .URL }}"
+			sha256 "{{ .SHA256 }}"
+		{{- end }}
 		end
 
 		if Hardware::CPU.arm? && !Hardware::CPU.is_64_bit?
-			url "{{ with (index .Assets "span.arm5-rpi-linux.zip") }}{{ .URL }}{{ end }}"
-			sha256 "{{ with (index .Assets "span.arm5-rpi-linux.zip") }}{{ .SHA256 }}{{ end }}"
+		{{- with (index .Assets "span.arm5-rpi-linux.zip") }}
+			url "{{ .URL }}"
+			sha256 "{{ .SHA256 }}"
+		{{- end }}
 		end
+		
 	end
 
 	def install
