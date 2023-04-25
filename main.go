@@ -109,11 +109,7 @@ func main() {
 		log.Fatal("no releases")
 	}
 
-	var wg sync.WaitGroup
-
 	version, _ := strings.CutPrefix(releases[0].GetTagName(), "v")
-
-	// version := release.GetTagName()
 	release := release{
 		Description: "Span command line client",
 		Homepage:    "https://github.com/lab5e/spancli",
@@ -121,6 +117,8 @@ func main() {
 		Assets:      map[string]*asset{},
 	}
 
+	// Process all release assets in parallel.  This is probably a bit naughty.
+	var wg sync.WaitGroup
 	for _, ass := range releases[0].Assets {
 		releaseAsset := newAsset(ass)
 		release.Assets[releaseAsset.Filename] = releaseAsset
@@ -132,13 +130,13 @@ func main() {
 			log.Printf("downloading %s", releaseAsset.URL)
 			res, err := http.Get(releaseAsset.URL)
 			if err != nil {
-				log.Printf("failed to fetch [%s]", releaseAsset.URL)
+				log.Fatalf("failed to fetch [%s]: %v", releaseAsset.URL, err)
 			}
 			defer res.Body.Close()
 
 			body, err := io.ReadAll(res.Body)
 			if err != nil {
-				log.Printf("failed to download [%s]", releaseAsset.URL)
+				log.Fatalf("failed to download [%s]: %v", releaseAsset.URL, err)
 			}
 			a.SHA256 = fmt.Sprintf("%x", sha256.Sum256(body))
 			log.Printf("done downloading %s", releaseAsset.URL)
