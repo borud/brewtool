@@ -2,7 +2,10 @@ module github.com/borud/brewtool
 
 go 1.20
 
-require github.com/google/go-github/v52 v52.0.0
+require (
+	github.com/google/go-github/v52 v52.0.0
+	github.com/jessevdk/go-flags v1.5.0
+)
 
 require (
 	github.com/ProtonMail/go-crypto v0.0.0-20230217124315-7d5c6f04bbb8 // indirect
