@@ -9,3 +9,9 @@ a bit when i get around to it.
 ```shell
 go build
 ```
+
+## Example usage
+
+```shell
+bin/brewtool --owner lab5e --repo spancli gen --bin span --name foo --desc "Span command line client"
+```
